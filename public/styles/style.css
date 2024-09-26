@@ -5,25 +5,44 @@
     padding: 0;
 }
 
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#team-header #team {
+    font-weight: 600;
+    font-size: 1.8rem;
+    text-align: right;
+    color: #f8fbfe;
+    font-family: cursive;
+    margin: 0; /* Remove any margin */
+}
+
+#team-header #logo {
+    border-radius: 50%;
+    width: 70px;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(to right, #4568dc , #b06ab3);
-    height: 100vh;
-    /* display: flex; */
-    /* justify-content: center; */
-    /* max-width: 70%; */
-    align-items: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     color: #333;
     padding: 20px; /* For padding on smaller screens */
     overflow-x: hidden;
 }
 
-.container{
+.container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex: 1; /* Ensure the container grows to push footer down */
 }
+
 h1 {
     font-size: 2.5rem;
     margin-bottom: 20px;
@@ -179,4 +198,26 @@ form {
     button {
         max-width: 100%;
     }
+}
+
+/* Footer Styling */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #111;
+    color: white;
+    font-size: 0.9rem;
+    box-shadow: 0px -4px 15px rgba(0, 0, 0, 0.2);
+    margin-top: auto; /* Ensures footer stays at the bottom */
+}
+
+/* Body Flex Layout */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    flex: 1; /* Fills remaining space */
 }

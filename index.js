@@ -14,7 +14,7 @@ const PORT = 3000;
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static('public')); // Serve static files from the public directory
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -36,7 +36,7 @@ app.post('/generate-users', async (req, res) => {
   const users = await getRandomUsers(count);
 
   const csvWriter = createObjectCsvWriter({
-    path: path.join(__dirname, 'users.csv'),
+    path: path.join(__dirname, 'public', 'users.csv'), // Save CSV in the public directory
     header: [
       { id: 'name', title: 'Name' },
       { id: 'email', title: 'Email' },
@@ -47,7 +47,7 @@ app.post('/generate-users', async (req, res) => {
 
   await csvWriter.writeRecords(users);
   
-  // Instead of sending a JSON response, render the EJS template with a message
+  // Render the EJS template with a message and the path to the generated CSV
   res.render('index', { message: 'User data generated', filePath: '/users.csv' });
 });
 

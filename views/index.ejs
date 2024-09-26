@@ -9,7 +9,10 @@
 </head>
 <body>
 
-    <header></header>
+    <header id="team-header">
+        <img id="logo"  src="./images/logimage.jpg" alt="Tech Titans Logo">
+        <h1 id="team">Tech Titans</h1>
+    </header>
     
     <div class="container">
     <h1>Random User Data Generator</h1>
@@ -25,7 +28,11 @@
             <a id="downloadLink" href="<%= filePath %>" download="users.csv">Download CSV</a>
         <% } %>
     </div>
+    
 </div>
+<footer>
+    <p>Powered by Tech Titans &copy; 2024</p>
+</footer>
     <script>
         // Optionally, you can still include JavaScript here if you want additional dynamic features
         // Currently, this app handles form submission and CSV download without JavaScript
