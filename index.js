@@ -2,14 +2,14 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import fetch from 'node-fetch';
-import { createObjectCsvWriter } from 'csv-writer';
+import { createObjectCsvStringifier } from 'csv-writer'; // Use stringifier to create CSV in memory
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // Use the environment port for Vercel
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,17 +26,16 @@ const getRandomUsers = async (count) => {
     name: `${user.name.first} ${user.name.last}`,
     email: user.email,
     phone: user.phone,
-    address: user.location.street.name + ', ' + user.location.city,
+    address: `${user.location.street.name}, ${user.location.city}`,
   }));
 };
 
-// Route to generate random users and save to CSV
+// Route to generate random users and send CSV as response
 app.post('/generate-users', async (req, res) => {
   const { count } = req.body; // Get the number of users to generate
   const users = await getRandomUsers(count);
 
-  const csvWriter = createObjectCsvWriter({
-    path: path.join(__dirname, 'public', 'users.csv'), // Save CSV in the public directory
+  const csvStringifier = createObjectCsvStringifier({
     header: [
       { id: 'name', title: 'Name' },
       { id: 'email', title: 'Email' },
@@ -45,10 +44,13 @@ app.post('/generate-users', async (req, res) => {
     ],
   });
 
-  await csvWriter.writeRecords(users);
-  
-  // Render the EJS template with a message and the path to the generated CSV
-  res.render('index', { message: 'User data generated', filePath: '/users.csv' });
+  const csvHeader = csvStringifier.getHeaderString();
+  const csvData = csvStringifier.stringifyRecords(users);
+  const csvContent = `${csvHeader}${csvData}`;
+
+  res.setHeader('Content-Type', 'text/csv');
+  res.setHeader('Content-Disposition', 'attachment; filename="users.csv"');
+  res.status(200).send(csvContent); // Send CSV content as response
 });
 
 // Serve the EJS template
