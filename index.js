@@ -1,4 +1,4 @@
-// app.js
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import fetch from 'node-fetch';
