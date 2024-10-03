@@ -14,7 +14,8 @@ const PORT = process.env.PORT || 3000; // Use the environment port for Vercel
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static('public')); // Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
+ // Serve static files from the public directory
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
